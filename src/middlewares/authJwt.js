@@ -2,10 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   // Buscar token en múltiples lugares
-  const token = 
-    req.cookies?.access_token ||          
-    req.headers['authorization']?.split(' ')[1] || 
-    req.headers['x-access-token'];        
+  const token = req.cookies?.access_token;  
 
   if (!token) {
     return res.status(401).json({ message: 'Access token required' });

@@ -29,7 +29,6 @@ const signup = async (req, res, next) => {
       { expiresIn: "1h" }
     );
 
-    // Establecer cookie (igual que en signin)
     res.cookie("access_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -44,7 +43,10 @@ const signup = async (req, res, next) => {
 };
 
 //logOut
-const logout = async (req, res, next) => {};
+const logout = async (req, res, next) => {
+  res.clearCookie('access_token')
+  return response(res,200,"Logged out successfully");
+};
 
 const signin = async (req, res, next) => {
   const { email, password } = req.body;

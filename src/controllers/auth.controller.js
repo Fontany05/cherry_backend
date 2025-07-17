@@ -6,34 +6,41 @@ import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 
 const secret = config.secret;
+const refreshSecret = config.refreshSecret;
 
 //signup
 const signup = async (req, res, next) => {
-  const { fullName, email, password, telephone } = req.body;
+  const { fullName, email,telephone, password } = req.body;
   try {
     const hashedPassword = await createHash(password);
     const newUser = await userService.insert({
       fullName,
       email,
-      password: hashedPassword,
       telephone,
+      password: hashedPassword,
       role: "user",
     });
-    //generar token jwt
+     // Generar token JWT
     const token = jwt.sign(
-      {
-        id: newUser._id,
-        role: newUser.role,
-      },
+      { id: newUser._id, role: newUser.role, email: newUser.email },
       secret,
       { expiresIn: "1h" }
     );
-
     res.cookie("access_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV == "production",
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60,
+    });
+
+    const refreshToken = jwt.sign({ id: newUser._id }, refreshSecret, {
+      expiresIn: "7d",
+    });
+    res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 1000 * 60 * 60, // 1 hora
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días
     });
 
     return response(res, 200, { newUser, token });
@@ -44,8 +51,9 @@ const signup = async (req, res, next) => {
 
 //logOut
 const logout = async (req, res, next) => {
-  res.clearCookie('access_token')
-  return response(res,200,"Logged out successfully");
+  res.clearCookie("access_token");
+  res.clearCookie("refresh_token");
+  return response(res, 200, "Logged out successfully");
 };
 
 const signin = async (req, res, next) => {
@@ -68,7 +76,7 @@ const signin = async (req, res, next) => {
       return res.status(401).json({ token: null, msj: "Invalid password" });
     }
 
-    // Generar token JWT
+     // Generar token JWT
     const token = jwt.sign(
       { id: userFound._id, role: userFound.role, email: userFound.email },
       secret,
@@ -80,9 +88,56 @@ const signin = async (req, res, next) => {
       sameSite: "strict",
       maxAge: 1000 * 60 * 60,
     });
+
+    const refreshToken = jwt.sign({ id: userFound._id, role: userFound.role, email: userFound.email }, 
+      refreshSecret, {
+      expiresIn: "7d",
+    });
+
+    // Enviar el refresh token en cookie
+    res.cookie("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días
+    });
+
     return response(res, 200, { token });
   } catch (error) {
     next(error);
+  }
+};
+
+//refresh token
+const refresh = async (req, res) => {
+  const refreshToken = req.cookies?.refresh_token;
+
+  if (!refreshToken) {
+    return response(res, 401, "No refresh token");
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, refreshSecret);
+    const userId = decoded.id;
+
+    // Opcionalmente verificar que el usuario exista en la base de datos aquí
+
+    // Crear nuevo access token
+    const newAccessToken = jwt.sign({ id: userId }, secret, {
+      expiresIn: "1h",
+    });
+
+    // Enviar nuevo access token en cookie
+    res.cookie("access_token", newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60, //1 hora
+    });
+
+    return response(res, { message: "Access token refreshed" });
+  } catch (err) {
+    return response(res, 403, "Invalid or expired refresh token");
   }
 };
 
@@ -90,4 +145,5 @@ export default {
   signup,
   logout,
   signin,
+  refresh,
 };

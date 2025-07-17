@@ -1,15 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { resErrors } from "./utils/resErrors.js";
 import http from "http";
 import morgan from "morgan";
 import helmet from "helmet";
-import apiRouter from "./routes/index.js"
+import apiRouter from "./routes/index.js";
 import dotenv from "dotenv";
 dotenv.config();
-
-
 
 const app = express();
 
@@ -17,6 +16,12 @@ const PORT = process.env.PORT || 3000;
 
 // Configuración de middlewares
 
+app.use(
+  cors({
+    origin: 'http://localhost:4200',
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(cookieParser());
 

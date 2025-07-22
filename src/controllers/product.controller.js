@@ -27,12 +27,14 @@ const getProduct = async (req, res, next) => {
 };
 //create product - mas adelante implementar la carga de imagenes
 const createProduct = async (req, res, next) => {
-  const { name, description, price, image } = req.body;
+  const { name, description, price,brand,stock,categories, image,destacado,active } = req.body;
   try {
     await productService.insert({
       name,
       description,
       price,
+      brand,
+      categories
     });
     response(res, 201, "Product created successfully");
   } catch (error) {

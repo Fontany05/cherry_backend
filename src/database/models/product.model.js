@@ -46,13 +46,13 @@ export default class Product {
       categories: {
         type: String,
         required: true,
-        enum: ["skincare", "maquillaje", "cuidado-corporal", "accesorios"],
+        enum: ["skincare", "makeup", "body-care", "beauty-tools", "brands"],
       },
       active: {
         type: Boolean,
         default: true,
       },
-      destacado: {
+      featured: {
         type: Boolean,
         default: false,
       },

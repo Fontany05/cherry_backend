@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import User from "./user.model.js"
 import Product from "./product.model.js";
 
+
 export default class Dao {
   // Primero, creamos el constructor que manejará la conexión a la base de datos.
   constructor(mongoConfig) {
@@ -18,10 +19,11 @@ export default class Dao {
     // Creamos una variable para instanciar los schemas, asociando el schema correspondiente con los timestamps.
     const userSchema = mongoose.Schema(User.schema, options);
     const productSchema = mongoose.Schema(Product.schema, options);
+ 
    
     this.models = {
       [User.model]: mongoose.model(User.model, userSchema),
-      [Product.model]: mongoose.model(Product.model, productSchema)
+      [Product.model]: mongoose.model(Product.model, productSchema),
 
     };
   }

@@ -9,10 +9,14 @@ import fs from "fs-extra";
 //get all products
 const getProducts = async (req, res, next) => {
   try {
-    const products = await productService.getAll();
+    // La validación ahora es manejada por el servicio.
+    // Esto simplifica el controlador, que solo se encarga de llamar al servicio.
+    const products = await productService.getFilteredProducts(req.query);
+
     if (!products || products.length === 0) {
-      throw new NotFoundError("Product not found");
+      throw new NotFoundError("No products found with those filters");
     }
+
     response(res, 200, products);
   } catch (error) {
     next(error);
@@ -29,9 +33,10 @@ const getProduct = async (req, res, next) => {
     next(error);
   }
 };
+
 //create product - mas adelante implementar la carga de imagenes
 const createProduct = async (req, res, next) => {
-  const { name, description, price, brand, stock, categories } = req.body;
+  const { name, description, price, brand, stock, categories, subcategory} = req.body;
   try {
     const result = await uploadFile(req.file.path);
     await productService.insert({
@@ -43,6 +48,7 @@ const createProduct = async (req, res, next) => {
       image: result.url,
       cloudinary_id: result.public_id,
       categories,
+      subcategory
     });
     //una vez que se carga la imagen, la elimina de la carpeta de upload dentro del proyecto
     await fs.unlink(req.file.path);
@@ -59,14 +65,14 @@ const updateProduct = async (req, res, next) => {
   const body = req.body;
   const media = req.file;
   try {
-    if (Object.keys(body).length === 0)
-      throw new ClientError("No fields provided for update");
-
+    if (Object.keys(body).length === 0 && !media) {
+      throw new ClientError("No fields provided for update.");
+    }
     const datafile = await productService.getBy({ _id: id });
     if (!datafile) throw new NotFoundError("product not found", 404);
     //actualiza  los datos del producto
     await productService.update(id, body);
-    //chequea si existe un file/image y si encuenta resultado, lo borra
+    //chequea si existe un file/image y si encuentra resultado, lo borra
     if (media) {
       await deleteFile(datafile.cloudinary_id);
       const newData = await uploadFile(media.path);
@@ -74,7 +80,7 @@ const updateProduct = async (req, res, next) => {
         image: newData.secure_url,
         cloudinary_id: newData.public_id,
       };
-      await productService.update(dataFile, data);
+      await productService.update(datafile, data);
       await fs.unlink(media.path);
     }
 
@@ -95,7 +101,7 @@ const deleteProduct = async (req, res, next) => {
     if (data.image && data.cloudinary_id) {
       await deleteFile(data.cloudinary_id);
     }
-    await productService.delete(id)
+    await productService.delete(id);
     response(res, 200, "product deleted successfully");
   } catch (error) {
     next(error);

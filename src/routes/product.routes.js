@@ -14,5 +14,4 @@ router.patch("/:id",verifyToken,upload.single('image'), productController.update
 router.delete("/:id",verifyToken, productController.deleteProduct);
 
 
-
 export default router;

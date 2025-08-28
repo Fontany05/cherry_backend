@@ -6,9 +6,11 @@ export default class Product {
   constructor(data) {
     this.data = data;
   }
+
   static get model() {
     return "Products";
   }
+
   static get schema() {
     return {
       name: {
@@ -24,14 +26,13 @@ export default class Product {
         type: Number,
         required: true,
       },
-      image: {
-        type: String,
-        required: false,
-      },
       brand: {
         type: String,
         required: true,
-        trim: true,
+      },
+      image: {
+        type: String,
+        required: false,
       },
       cloudinary_id: {
         type: String,
@@ -46,7 +47,19 @@ export default class Product {
       categories: {
         type: String,
         required: true,
-        enum: ["skincare", "makeup", "body-care", "beauty-tools", "brands"],
+        enum: ["skincare", "makeup", "sets", "beauty-tools"],
+      },
+      subcategory: {
+        type: String,
+        required: false, // Make it not required for all products
+        enum: [
+          "lipstick",
+          "mascara",
+          "blush",
+          "eyeliner",
+          "cushions",
+          "eyeshadows",
+        ],
       },
       active: {
         type: Boolean,

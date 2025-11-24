@@ -51,7 +51,7 @@ export default class Product {
       },
       subcategory: {
         type: String,
-        required: false, // Make it not required for all products
+        required: false,
         enum: [
           "lipstick",
           "mascara",

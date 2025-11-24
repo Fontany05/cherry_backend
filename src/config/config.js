@@ -7,4 +7,6 @@ export default {
   dbUri: process.env.MONGO_DB_URI || "",
   secret: process.env.JWT_SECRET || "TEST",
   refreshSecret: process.env.REFRESH_SECRET || "TEST",
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  //stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
 };

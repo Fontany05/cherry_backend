@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import User from "./user.model.js"
 import Product from "./product.model.js";
+import Order from "./order.model.js";
+import Cart from "./cart.model.js";
 
 
 export default class Dao {
@@ -19,12 +21,15 @@ export default class Dao {
     // Creamos una variable para instanciar los schemas, asociando el schema correspondiente con los timestamps.
     const userSchema = mongoose.Schema(User.schema, options);
     const productSchema = mongoose.Schema(Product.schema, options);
+    const orderSchema = mongoose.Schema(Order.schema, options);
+    const cartSchema = mongoose.Schema(Cart.schema, options);
  
    
     this.models = {
       [User.model]: mongoose.model(User.model, userSchema),
       [Product.model]: mongoose.model(Product.model, productSchema),
-
+      [Order.model]: mongoose.model(Order.model, orderSchema),
+      [Cart.model]: mongoose.model(Cart.model, cartSchema),
     };
   }
   // Método para encontrar un único documento que coincida con los criterios especificados.

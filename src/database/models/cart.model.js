@@ -23,7 +23,7 @@ export default class Cart {
         {
           productId: {
             type: Schema.Types.ObjectId,
-            ref: "Products",
+            ref: 'Products',
             required: true,
           },
           quantity: {

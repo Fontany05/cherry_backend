@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authController from "../controllers/auth.controller.js";
-import { verifyRefreshToken } from "../middlewares/authJwt.js";
+import { verifyRefreshToken, verifyToken } from "../middlewares/authJwt.js";
 
 
 
@@ -10,6 +10,7 @@ router.post('/signup', authController.signup);
 router.post('/signin', authController.signin);
 router.post('/logout', authController.logout);
 router.post('/refresh', verifyRefreshToken, authController.refresh);
+router.get('/me', verifyToken, authController.me);
 
 
 export default router;

@@ -1,28 +1,24 @@
 import { cartService } from "../services/index.js";
-import { NotFoundError, ClientError } from "../utils/errors.js";
+import { ClientError } from "../utils/errors.js";
 import { response } from "../utils/response.js";
 
-//Get user cart
+// Obtener el carrito del usuario logueado
 const getCart = async (req, res, next) => {
-  const { userId } = req.params;
   try {
+    const userId = req.user.id; // Sacado del token
     const cart = await cartService.getCart(userId);
 
-    if (!cart) {
-      throw new NotFoundError("cart not found");
-    }
     response(res, 200, cart);
   } catch (error) {
     next(error);
   }
 };
-
-//add product to cart
+// Agregar producto (usa ID del token)
 const addToCart = async (req, res, next) => {
-  const { userId } = req.params;
-  const { productId, quantity, price } = req.body;
-
   try {
+    const userId = req.user.id;
+    const { productId, quantity, price } = req.body;
+
     if (!productId || !quantity || !price) {
       throw new ClientError("ProductId, quantity, and price are required");
     }
@@ -31,63 +27,53 @@ const addToCart = async (req, res, next) => {
       userId,
       productId,
       quantity,
-      price
+      price,
     );
-
     response(res, 200, cart);
   } catch (error) {
     next(error);
   }
 };
 
-//Remove product from cart
+//  Eliminar producto
 const removeFromCart = async (req, res, next) => {
-  const { userId } = req.params;
-  const { productId } = req.body;
-
   try {
+    const userId = req.user.id;
+    const { productId } = req.body;
+
     if (!productId) {
       throw new ClientError("productId is required");
     }
 
     const cart = await cartService.removeFromCart(userId, productId);
-
     response(res, 200, cart);
   } catch (error) {
     next(error);
-
   }
 };
 
-//Update quantity of a product
+// Actualizar cantidad
 const updateQuantity = async (req, res, next) => {
-  const { userId } = req.params;
-  const { productId, quantity } = req.body;
-
   try {
-    if (!productId || !quantity) {
+    const userId = req.user.id;
+    const { productId, quantity } = req.body;
+
+    if (!productId || quantity === undefined) {
       throw new ClientError("productId and quantity are required");
     }
 
-    if (quantity < 1) {
-      throw new ClientError("The amount must be greater than 0");
-    }
-
     const cart = await cartService.updateQuantity(userId, productId, quantity);
-
     response(res, 200, cart);
   } catch (error) {
     next(error);
   }
 };
 
-// clear cart
+// Vaciar carrito
 const clearCart = async (req, res, next) => {
-  const { userId } = req.params;
-
   try {
+    const userId = req.user.id;
     const cart = await cartService.clearCart(userId);
-
     response(res, 200, cart);
   } catch (error) {
     next(error);

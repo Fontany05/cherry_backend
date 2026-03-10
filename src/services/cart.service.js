@@ -1,5 +1,6 @@
 import Cart from "../database/models/cart.model.js";
 import GenericQueries from "./gerenicQueries.js";
+import { getPopulatedCart } from "../utils/cartHelpers.js";
 
 export default class CartService extends GenericQueries {
   constructor(dao) {
@@ -8,9 +9,23 @@ export default class CartService extends GenericQueries {
 
   // Obtener carrito de un usuario
   async getCart(userId) {
-    return await this.getBy({ userId });
-  }
+    const cart = await getPopulatedCart(
+      { userId },
+      this.dao.models[this.model],
+    );
 
+    // Si no existe
+    if (!cart) {
+      return {
+        userId,
+        items: [],
+        subtotal: 0,
+        total: 0,
+        shippingCost: 0,
+      };
+    }
+    return cart;
+  }
   // Agregar producto al carrito
   async addToCart(userId, productId, quantity, price) {
     let cart = await this.getBy({ userId });
@@ -26,7 +41,7 @@ export default class CartService extends GenericQueries {
     } else {
       // Si existe, buscar si el producto ya está en el carrito
       const itemIndex = cart.items.findIndex(
-        (item) => item.productId.toString() === productId
+        (item) => item.productId.toString() === productId,
       );
 
       if (itemIndex !== -1) {
@@ -40,7 +55,7 @@ export default class CartService extends GenericQueries {
       // Recalcular totales
       const subtotal = cart.items.reduce(
         (sum, item) => sum + item.price * item.quantity,
-        0
+        0,
       );
 
       cart = await this.update(cart._id, {
@@ -50,10 +65,12 @@ export default class CartService extends GenericQueries {
       });
     }
 
-    return cart;
+    return await getPopulatedCart({ userId }, this.dao.models[this.model]);
   }
 
   // Eliminar producto del carrito
+  // src/services/cartService.js
+
   async removeFromCart(userId, productId) {
     const cart = await this.getBy({ userId });
 
@@ -61,20 +78,27 @@ export default class CartService extends GenericQueries {
       throw new Error("Carrito no encontrado");
     }
 
+    // Filtramos para eliminar el producto
     cart.items = cart.items.filter(
-      (item) => item.productId.toString() !== productId
+      (item) => item.productId.toString() !== productId,
     );
 
+    // Recalculamos el subtotal
     const subtotal = cart.items.reduce(
       (sum, item) => sum + item.price * item.quantity,
-      0
+      0,
     );
 
-    return await this.update(cart._id, {
+    // 1. Guardamos los cambios en la base de datos
+    await this.update(cart._id, {
       items: cart.items,
       subtotal,
       total: subtotal + (cart.shippingCost || 0),
     });
+
+    // 2. RETORNO ARREGLADO: Obtenemos el carrito con los datos de los productos (Populate)
+    // Esto es lo que permite que el frontend vea nombres e imágenes después de borrar
+    return await getPopulatedCart({ userId }, this.dao.models[this.model]);
   }
 
   // Actualizar cantidad de un producto
@@ -86,7 +110,7 @@ export default class CartService extends GenericQueries {
     }
 
     const item = cart.items.find(
-      (item) => item.productId.toString() === productId
+      (item) => item.productId.toString() === productId,
     );
 
     if (!item) {
@@ -97,14 +121,16 @@ export default class CartService extends GenericQueries {
 
     const subtotal = cart.items.reduce(
       (sum, item) => sum + item.price * item.quantity,
-      0
+      0,
     );
 
-    return await this.update(cart._id, {
+    await this.update(cart._id, {
       items: cart.items,
       subtotal,
       total: subtotal + (cart.shippingCost || 0),
     });
+
+    return await getPopulatedCart({ userId }, this.dao.models[this.model]);
   }
 
   // Vaciar carrito
@@ -115,10 +141,11 @@ export default class CartService extends GenericQueries {
       throw new Error("Carrito no encontrado");
     }
 
-    return await this.update(cart._id, {
+    await this.update(cart._id, {
       items: [],
       subtotal: 0,
       total: 0,
     });
+    return await getPopulatedCart({ userId }, this.dao.models[this.model]);
   }
 }

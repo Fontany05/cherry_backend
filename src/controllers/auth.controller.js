@@ -12,6 +12,14 @@ const refreshSecret = config.refreshSecret;
 const signup = async (req, res, next) => {
   const { fullName, email, telephone, password } = req.body;
   try {
+    // Verificar si el email ya está en uso
+    const existingUser = await userService.getBy({ email });
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ error: true, message: "Email already in use" });
+    }
+
     const hashedPassword = await createHash(password);
     const newUser = await userService.insert({
       fullName,

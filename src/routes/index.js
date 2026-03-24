@@ -5,6 +5,7 @@ import productRouter from "./product.routes.js";
 import paymentRouter from "./payment.routes.js";
 import cartRouter from "./cart.routes.js";
 import orderRouter from "./order.routes.js";
+import userRouter from "./user.routes.js";
 
 const app = express();
 
@@ -19,7 +20,7 @@ const apiRouter = (app) => {
   router.use("/api/payments", paymentRouter);
   router.use("/api/carts", cartRouter);
   router.use("/api/orders", orderRouter);
-
+  router.use("/api/users", userRouter);
 
   app.use(router);
 };

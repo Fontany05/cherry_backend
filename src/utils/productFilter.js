@@ -1,8 +1,18 @@
 // Función principal para construir el filtro de productos
 export function buildProductFilter(queryParams) {
-  const { category, brand, subcategory } = queryParams;
+  const { category, brand, subcategory, search } = queryParams;
 
   const filter = { active: true };
+
+  // Filtro por búsqueda(lupa)
+  if (search) {
+    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    filter.$or = [
+      { name: { $regex: escapedSearch, $options: "i" } },
+      { brand: { $regex: escapedSearch, $options: "i" } },
+      { description: { $regex: escapedSearch, $options: "i" } },
+    ];
+  }
 
   // Filtro por marca
   if (brand) {
@@ -16,7 +26,7 @@ export function buildProductFilter(queryParams) {
     // se aplican ambos filtros.
     if (subcategory) {
       filter.categories = category;
-       filter.subcategory = subcategory; 
+      filter.subcategory = subcategory;
     } else {
       // Si solo se proporciona una categoría, solo se aplica ese filtro.
       filter.categories = category;

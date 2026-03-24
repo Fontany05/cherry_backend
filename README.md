@@ -17,6 +17,14 @@ La arquitectura sigue un enfoque modular basado en controllers, services y DAO, 
 
 ---
 
+## 🌐 Frontend
+
+Este proyecto se conecta con el frontend disponible aquí:
+
+👉 https://github.com/tu-user/ecommerce-cherry-frontend](https://github.com/Fontany05/cherry_frontend
+
+---
+
 ## ⚙️ Tecnologías
 
 - Node.js

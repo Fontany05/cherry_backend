@@ -1,12 +1,76 @@
-Ecommerce Cherry – proyecto en desarrollo.
+# 🍒 Ecommerce Cherry - Backend
 
-Node.js / Angular / MongoDB / stripe / JWT / 
+![Ecommerce Cherry Banner](https://github.com/user-attachments/assets/720ce4c7-4dd8-40a7-873f-8ead0a683958)
 
 
-Corre el proyecto
+API de ecommerce desarrollada con Node.js, Express y MongoDB, diseñada para simular un entorno real de negocio.
 
+API de ecommerce con Node.js, Express y MongoDB que gestiona usuarios, productos y flujo de compra con carrito y pagos mediante Stripe, desarrollada con arquitectura modular y escalable.
+
+---
+
+## 📌 Sobre el proyecto
+
+API de ecommerce desarrollada con Node.js, Express y MongoDB, diseñada para simular un entorno real de negocio.
+
+Gestiona autenticación de usuarios mediante JWT y cookies, administración de productos con carga de imágenes (Cloudinary + Multer) y flujo completo de compra, incluyendo carrito y checkout con Stripe.
+
+La arquitectura sigue un enfoque modular basado en controllers, services y DAO, lo que permite escalabilidad, mantenibilidad y fácil evolución del sistema.
+
+---
+
+## ⚙️ Tecnologías
+
+- Node.js
+- Express
+- MongoDB
+- JWT + Cookies
+- Express Validator
+- Cloudinary
+- Multer
+- Stripe
+
+---
+
+## 🏗️ Arquitectura
+
+- Controllers → manejo de requests  
+- Services → lógica de negocio  
+- DAO → acceso a datos  
+- Models → estructura de datos  
+- Middlewares → autenticación y validaciones  
+
+---
+
+## 🔑 Funcionalidades
+
+- Registro y login de usuarios  
+- Autenticación con JWT y cookies  
+- CRUD de productos con imágenes  
+- Carrito de compras  
+- Checkout con Stripe  
+
+---
+
+## 🚀 Instalación
+
+```bash
+git clone https://github.com/tu-usuario/ecommerce-cherry-backend.git](https://github.com/Fontany05/cherry_backend.git
+cd cherry_backend
 npm install
 npm run dev
 
 
-El proyecto cherry se encuentra en desarrollo tanto del backend como el frontend
+## 🚧 Estado del proyecto
+
+En desarrollo activo y apto para mejoras.  
+Actualmente se encuentra en etapa final, con despliegue próximo del backend y frontend.
+
+
+
+
+## 👨‍💻 Autor
+
+- Ana Fontana 
+- GitHub: https://github.com/Fontany05
+- LinkedIn: https://linkedin.com/in/tu-perfil  ](https://www.linkedin.com/in/ana-fontana-/

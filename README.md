@@ -58,7 +58,7 @@ La arquitectura sigue un enfoque modular basado en controllers, services y DAO, 
 
 ---
 
-# ❗ Nota: el backend esta preparado para agregar esta actualizacion, asi sumar el panel de administracion de usuarios,roles,ordenes y gestion de la carga de productos de la tienda Cherry.
+## ❗ Nota: el backend esta preparado para agregar esta actualizacion, asi sumar el panel de administracion de usuarios,roles,ordenes y gestion de la carga de productos de la tienda Cherry.
 
 ---  
 

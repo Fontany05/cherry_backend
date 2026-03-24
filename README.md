@@ -3,8 +3,6 @@
 ![Ecommerce Cherry Banner](https://github.com/user-attachments/assets/720ce4c7-4dd8-40a7-873f-8ead0a683958)
 
 
-API de ecommerce desarrollada con Node.js, Express y MongoDB, diseñada para simular un entorno real de negocio.
-
 API de ecommerce con Node.js, Express y MongoDB que gestiona usuarios, productos y flujo de compra con carrito y pagos mediante Stripe, desarrollada con arquitectura modular y escalable.
 
 ---

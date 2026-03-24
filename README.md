@@ -50,10 +50,22 @@ La arquitectura sigue un enfoque modular basado en controllers, services y DAO, 
 
 ---
 
+## 📈 Próximas mejoras
+
+- Sistema de roles (admin / user / moderator)  
+- Panel de administración  
+- Historial de órdenes
+
+---
+
+# ❗ Nota: el backend esta preparado para agregar esta actualizacion, asi sumar el panel de administracion de usuarios,roles,ordenes y gestion de la carga de productos de la tienda Cherry.
+
+---  
+
 ## 🚀 Instalación
 
 ```bash
-
+---
 git clone https://github.com/tu-usuario/ecommerce-cherry-backend.git](https://github.com/Fontany05/cherry_backend.git
 cd cherry_backend
 npm install

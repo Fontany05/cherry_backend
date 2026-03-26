@@ -92,4 +92,4 @@ Actualmente se encuentra en etapa final, con despliegue próximo del backend y f
 
 - Ana Fontana 
 - GitHub: https://github.com/Fontany05
-- LinkedIn: https://linkedin.com/in/tu-perfil  ](https://www.linkedin.com/in/ana-fontana-/
+- LinkedIn: https://www.linkedin.com/in/ana-fontana-/

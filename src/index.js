@@ -8,6 +8,14 @@ import morgan from "morgan";
 import helmet from "helmet";
 import apiRouter from "./routes/index.js";
 import dotenv from "dotenv";
+import swaggerUi from "swagger-ui-express";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const swaggerDocument = JSON.parse(readFileSync(join(__dirname, "./docs/swagger.json"), "utf-8"));
 dotenv.config();
 
 const app = express();
@@ -27,6 +35,8 @@ app.use(cookieParser());
 
 app.use(morgan("dev"));
 app.use(helmet());
+//Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rutas
 apiRouter(app);

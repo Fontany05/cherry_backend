@@ -50,6 +50,17 @@ La arquitectura sigue un enfoque modular basado en controllers, services y DAO, 
 
 ---
 
+## 📖 Documentación API
+
+La API está documentada con Swagger UI y disponible en:
+```
+http://localhost:3000/api-docs
+```
+
+Incluye todos los endpoints con descripciones, ejemplos de request/response y autenticación por cookie.
+
+---
+
 ## 📈 Próximas mejoras
 
 - Sistema de roles (admin / user / moderator)  
@@ -66,7 +77,7 @@ La arquitectura sigue un enfoque modular basado en controllers, services y DAO, 
 
 ```bash
 ---
-git clone https://github.com/tu-usuario/ecommerce-cherry-backend.git](https://github.com/Fontany05/cherry_backend.git
+git clone https://github.com/Fontany05/cherry_backend.git
 cd cherry_backend
 npm install
 npm run dev
@@ -84,4 +95,4 @@ Actualmente se encuentra en etapa final, con despliegue próximo del backend y f
 
 - Ana Fontana 
 - GitHub: https://github.com/Fontany05
-- LinkedIn: https://linkedin.com/in/tu-perfil  ](https://www.linkedin.com/in/ana-fontana-/
+- LinkedIn: https://www.linkedin.com/in/ana-fontana-/

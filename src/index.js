@@ -15,7 +15,9 @@ import { dirname, join } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const swaggerDocument = JSON.parse(readFileSync(join(__dirname, "./docs/swagger.json"), "utf-8"));
+const swaggerDocument = JSON.parse(
+  readFileSync(join(__dirname, "./docs/swagger.json"), "utf-8"),
+);
 dotenv.config();
 
 const app = express();
@@ -26,9 +28,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: 'http://localhost:4200',
+    origin: [
+      "http://localhost:4200",
+      "https://cherry-frontend-727x.vercel.app",
+    ],
     credentials: true,
-  })
+  }),
 );
 app.use(bodyParser.json());
 app.use(cookieParser());

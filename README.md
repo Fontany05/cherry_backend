@@ -99,8 +99,8 @@ Desarrollado y apto para mejoras.
 
 ## 🌐 Deploy
 
-- **Backend**: https://cherry-backend-ekr9.onrender.com
-- **Frontend**: https://cherry-frontend-727x.vercel.app
+- Backend: https://cherry-backend-ekr9.onrender.com
+- Frontend: https://cherry-frontend-727x.vercel.app
 
 
 ## 👨‍💻 Autor

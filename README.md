@@ -62,7 +62,7 @@ Este proyecto se conecta con el frontend disponible aquí:
 
 La API está documentada con Swagger UI y disponible en:
 ```
-http://localhost:3000/api-docs
+- **API Docs**: https://cherry-backend-ekr9.onrender.com/api-docs
 ```
 
 Incluye todos los endpoints con descripciones, ejemplos de request/response y autenticación por cookie.
@@ -93,10 +93,14 @@ npm run dev
 
 ## 🚧 Estado del proyecto
 
-En desarrollo activo y apto para mejoras.  
-Actualmente se encuentra en etapa final, con despliegue próximo del backend y frontend.
+Desarrollado y apto para mejoras.  
 
+---
 
+## 🌐 Deploy
+
+- **Backend**: https://cherry-backend-ekr9.onrender.com
+- **Frontend**: https://cherry-frontend-727x.vercel.app
 
 
 ## 👨‍💻 Autor
@@ -104,3 +108,7 @@ Actualmente se encuentra en etapa final, con despliegue próximo del backend y f
 - Ana Fontana 
 - GitHub: https://github.com/Fontany05
 - LinkedIn: https://www.linkedin.com/in/ana-fontana-/
+- Instagram: https://www.instagram.com/afdev__/
+
+## Contacto
+- Email: anafontana822@hotmail.com

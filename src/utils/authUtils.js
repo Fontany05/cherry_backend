@@ -4,8 +4,8 @@ import config from "../config/config.js";
 // 1. Centralizamos la configuración
 export const getCookieOptions = () => ({
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+  secure: true,
+  sameSite: 'none',
   path: '/',
 });
 
